@@ -1,0 +1,87 @@
+<html>
+<head>
+    <meta charset="UTF-8"/> 
+    <title>Converting Eclipse Debugger byte array to hex string</title>
+    <script type="text/javascript">
+    <!--
+    function convByteToHexString(number) {
+        if (number < 0) {
+            number = number & 0x000000FF;
+        }
+        return number.toString(16).toUpperCase();
+    }
+    function padLeadingZeros(num, size) {
+        var s = num + "";
+        while (s.length < size) s = "0" + s;
+        return s;
+    }
+    function convert() {
+        var dec_byte_array_string = document.getElementById('dec_byte_array').value.trim();
+        if (dec_byte_array_string) {
+            var dec_byte_array = dec_byte_array_string.replace(/[\[\]]+/g,'').split(", ");
+            var hex_byte_array_string = "";
+            var i = 0;
+            var col_num = document.getElementById('col_num').value;
+            var row_num = (dec_byte_array.length / col_num >> 0) + 1; // integer division
+            for (var row = 0; row < row_num; ++row) {
+                var ascii_array_string = "";
+                hex_byte_array_string += padLeadingZeros(i, 4) + ":";
+                for (var col = 0; col < col_num; ++col) {
+                    var byte = Number(dec_byte_array[i]);
+                    if (isNaN(byte)) {
+                        byte = 0;
+                    }
+                    if ((i % col_num) && !(i % 8)) {
+                        hex_byte_array_string += ",";
+                    } else {
+                        hex_byte_array_string += " ";
+                    }
+                    if (i < dec_byte_array.length) {
+                        hex_byte_array_string += padLeadingZeros(String(convByteToHexString(byte)), 2);
+                    } else {
+                        hex_byte_array_string += "00";
+                    }
+                    if (byte > 31 && byte < 127)
+                        ascii_array_string += String.fromCharCode(byte);
+                    else
+                        ascii_array_string += ".";
+                    ++i;
+                }
+                hex_byte_array_string += " | " + ascii_array_string + "\n";
+            }
+            document.getElementById('hex_byte_array').value = hex_byte_array_string;
+        } else {
+            document.getElementById('hex_byte_array').value = "";
+        }
+    }
+    function reset() {
+        document.getElementById('dec_byte_array').value = "";
+        document.getElementById('hex_byte_array').value = "";
+    }
+    -->
+    </script>
+</head>
+<body>
+    <p>
+    <h1>Converting Eclipse Debugger byte array to hex string</h1>
+    </p>
+    <p>
+    Eclipse byte array: <br/>
+    <textarea id="dec_byte_array" style="font-family: monospace; font-size:16px;" rows="10" cols="120" wrap="on"></textarea>
+    </p>
+    <p>
+    Display <select id="col_num" onchange="convert();">
+        <option value="8">8</option>
+        <option value="16">16</option>
+        <option value="24" selected="">24</option>
+        <option value="32">32</option>
+    </select> columns per row. 
+    <input type="button" value="Convert!" onclick="convert();"/>
+    <input type="button" value="Reset" onclick="reset();"/>
+    </p>
+    <p>
+    Heximal string and text: <br/>
+    <textarea id="hex_byte_array" style="font-family: monospace; font-size:16px;" rows="20" cols="120" wrap="off"></textarea>
+    </p>
+</body>
+</html>
