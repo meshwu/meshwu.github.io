@@ -32,8 +32,8 @@
                         byte = 0;
                     }
                     if ((i % col_num) && !(i % 8)) {
-                        hex_byte_array_string += ",";
-                        ascii_array_string += ",";
+                        hex_byte_array_string += "|";
+                        ascii_array_string += "|";
                     } else {
                         hex_byte_array_string += " ";
                     }
@@ -48,7 +48,7 @@
                         ascii_array_string += ".";
                     ++i;
                 }
-                hex_byte_array_string += " | " + ascii_array_string + "\n";
+                hex_byte_array_string += " ; " + ascii_array_string + "\n";
             }
             document.getElementById('hex_byte_array').value = hex_byte_array_string;
         } else {
